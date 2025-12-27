@@ -1,0 +1,36 @@
+---
+import "../styles/global.css";
+
+const { title } = Astro.props;
+import Header from '../components/Header.astro';
+---
+
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>{title}</title>
+    </head>
+    <body class="min-h-screen bg-white text-gray-900">
+        <Header>
+        </Header>
+
+        <div class="mx-auto max-w-[1400px] px-4 grid grid-cols-1 gap-6 lg:grid-cols-[240px_1fr_300px]">
+            <aside class="hidden lg:block">
+                Sidebar
+            </aside>
+
+            <main>
+                <slot />
+            </main>
+
+            <aside class="hidden lg:block">
+                Right column
+            </aside>
+        </div>
+        <footer>
+            Footer
+        </footer>
+    </body>
+</html>
