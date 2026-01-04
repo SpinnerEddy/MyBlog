@@ -1,0 +1,27 @@
+---
+// Sidebar.astro
+const navItems = [
+{ href: '/', label: 'Home' },
+{ href: '/about', label: 'About' },
+{ href: '/content', label: 'Content' },
+{ href: '/sketch', label: 'Sketch' },
+{ href: '/playground', label: 'Playground' },
+];
+---
+
+
+<aside class="fixed left-0 top-0 h-screen w-40 border-r border-zinc-800 bg-white text-zinc-900">
+    <nav class="flex h-full flex-col px-6 py-8">
+        <ul class="space-y-4 text-sm tracking-wide">
+            <li class="pb-4 border-b border-zinc-400 text-xs uppercase tracking-widest text-zinc-400">
+            </li>
+            {navItems.map((item) => (
+            <li>
+                <a href={item.href} class="block transition-colors hover:text-zinc-900 text-zinc-900">
+                    {item.label}
+                </a>
+            </li>))
+            }
+        </ul>
+    </nav>
+</aside>

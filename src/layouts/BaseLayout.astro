@@ -4,6 +4,7 @@ import "../styles/global.css";
 const { title } = Astro.props;
 import Header from '../components/Header.astro';
 import Footer from "../components/Footer.astro";
+import Sidebar from "../components/Sidebar.astro";
 ---
 
 <!DOCTYPE html>
@@ -17,9 +18,7 @@ import Footer from "../components/Footer.astro";
         <Header />
 
         <div class="mx-auto max-w-[1400px] px-4 grid grid-cols-1 gap-6 lg:grid-cols-[240px_1fr_300px]">
-            <aside class="hidden lg:block">
-                Sidebar
-            </aside>
+            <Sidebar />
 
             <main>
                 <slot />
