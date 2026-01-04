@@ -4,6 +4,7 @@ import XIcon from './XIcon.astro';
 import InstagramIcon from './InstagramIcon.astro';
 import GithubIcon from './GithubIcon.astro';
 import HeaderSocialLink from './HeaderSocialLink.astro';
+import SpinnerIcon from './SpinnerIcon.astro';
 
 const socials = [
 	{href: "https://x.com/EKey2210", label: "SpinnerEddy on X", Icon: XIcon},
@@ -15,7 +16,10 @@ const socials = [
 
 <header class="sticky top-0 z-50 bg-white border-b">
 	<div class="mx-auto max-w-[1400px] px-4 h-14 flex items-center justify-between">
-		<span class="font-semibold">{SITE_TITLE}</span>
+		<span class="flex items-center gap-2 font-semibold">
+			<SpinnerIcon class="w-5 h-5 opacity-80"/>
+			{SITE_TITLE}
+		</span>
 		<nav class="flex gap-4 text-sm">
 			{socials.map(({href, label, Icon}) => (
 				<HeaderSocialLink href={href} label={label}>
