@@ -1,0 +1,26 @@
+---
+import PortfolioSketchPlate from "./PortfolioSketchPlate.astro";
+import { portfolioSketches } from "../data/PortfolioSketches"
+
+export interface Props {
+  title: string;
+}
+
+const { title } = Astro.props;
+---
+
+<section>
+  <h2 class="section-title">{title}</h2>
+
+  {portfolioSketches.map(sketch => (
+    <PortfolioSketchPlate {...sketch} />
+  ))}
+</section>
+
+<style>
+  .section-title {
+    text-align: center;
+    margin-bottom: 48px;
+    font-size: 1.6rem;
+  }
+</style>
