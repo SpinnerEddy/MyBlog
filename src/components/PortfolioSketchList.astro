@@ -2,25 +2,46 @@
 import PortfolioSketchPlate from "./PortfolioSketchPlate.astro";
 import { portfolioSketches } from "../data/PortfolioSketches"
 
-export interface Props {
-  title: string;
-}
-
-const { title } = Astro.props;
+const otherSketches = [
+	{
+		title: 'openprocessing',
+		url: 'https://note.com/01122299/n/n368f79544e9f',
+	},
+	{
+		title: 'NEORT',
+		url: 'https://neort.io/@AxrhxjsMdchT3MgZyMsscrSyXGa2',
+	},
+];
 ---
 
 <section>
-  <h2 class="section-title">{title}</h2>
+  <h2 class="section-title">Sketches</h2>
 
   {portfolioSketches.map(sketch => (
     <PortfolioSketchPlate {...sketch} />
   ))}
+
+  <h2 class="section-title">Other Sketches Link</h2>
+  <ul class="space-y-2 text-l text-gray-600 text-center">
+		{otherSketches.map((sketch) => (
+			<li>
+				<a
+					href={sketch.url}
+					target="_blank"
+					rel="noopener noreferrer"
+					class="hover:text-gray-900 hover:underline"
+				>
+					{sketch.title}
+				</a>
+			</li>
+		))}
+  </ul>
 </section>
 
 <style>
   .section-title {
     text-align: center;
-    margin-bottom: 48px;
+    margin-bottom: 24px;
     font-size: 1.6rem;
   }
 </style>

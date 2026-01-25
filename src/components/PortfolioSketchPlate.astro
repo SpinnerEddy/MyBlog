@@ -6,13 +6,15 @@ export interface Props {
   languages: string[];
   description: string;
   codeUrl?: string;
+  additionalUrl?: string;
+  additionalUrlName?: string;
 }
 
-const { title, embedType, embedId, languages, description, codeUrl } = Astro.props;
+const { title, embedType, embedId, languages, description, codeUrl, additionalUrl, additionalUrlName } = Astro.props;
 ---
 
 <article class="sketch">
-  <h3 class="title">{title}</h3>
+  <h3 class="content-title-font title">{title}</h3>
 
   <div class="media">
     {embedType === "youtube" && (
@@ -36,14 +38,22 @@ const { title, embedType, embedId, languages, description, codeUrl } = Astro.pro
   </ul>
 
   <p class="description">{description}</p>
-  
+
+  {additionalUrl && additionalUrlName && (
+    <div class="additional-link">
+        <a href={additionalUrl} target="_blank" rel="noopener noreferrer" class="hover:text-gray-900 hover:underline">
+        {additionalUrlName}
+        </a>
+    </div>
+  )}
+
   {codeUrl && (
-  <div class="code-link">
-    <a href={codeUrl} target="_blank" rel="noopener noreferrer">
-      {codeUrl}
-    </a>
-  </div>
-)}
+    <div class="code-link">
+        <a href={codeUrl} target="_blank" rel="noopener noreferrer" class="hover:text-gray-900 hover:underline">
+        {codeUrl}
+        </a>
+    </div>
+  )}
 
 
 <style>
@@ -55,7 +65,7 @@ const { title, embedType, embedId, languages, description, codeUrl } = Astro.pro
 
   .title {
     margin-bottom: 16px;
-    font-size: 1.3rem;
+    font-size: 1.8rem;
   }
 
   .media {
