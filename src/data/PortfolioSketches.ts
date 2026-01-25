@@ -4,6 +4,7 @@ export type PortfolioSketch = {
   embedId: string;
   languages: string[];
   description: string;
+  additionalDescription?: string;
   codeUrl?: string;
   additionalUrl?: string;
   additionalUrlName?: string;
@@ -15,7 +16,7 @@ export const portfolioSketches: PortfolioSketch[] = [
     embedType: "youtube",
     embedId: "1ZRyR3I30CM?si=43Gz_pQFCfO10tbA",
     languages: ["GLSL", "WebGL", "TypeScript"],
-    description: "SESSIONS2025 RealTimeGraphics で展示した Browser Demo",
+    description: "SESSIONS2025 RealTimeGraphics で展示した 単一HTMLファイルによるBrowser Demo",
     codeUrl: "https://github.com/SpinnerEddy/TWIRLSTAGE",
     additionalUrl: "https://youtu.be/ifvrVZEbS_Y?si=1RqoKNs3R2zq2OK9&t=1054",
     additionalUrlName: "SESSIONS2025 RealTimeGraphics"
@@ -26,6 +27,7 @@ export const portfolioSketches: PortfolioSketch[] = [
     embedId: "J8515VaCgw8?si=JdFno94h4FToe2do&amp;start=572",
     languages: ["GLSL"],
     description: "SESSIONS2024 で展示した Code Graphics Compo",
+    additionalDescription: "※ サムネイルはYouTube仕様のため固定。再生位置は展示時の演出に合わせています。",
     codeUrl: "https://www.shadertoy.com/view/4fycWz",
 },
 {
@@ -34,6 +36,7 @@ export const portfolioSketches: PortfolioSketch[] = [
     embedId: "EIdwQql6rdg?si=ibmCRoRbmPuI9z91&amp;start=570",
     languages: ["GLSL"],
     description: "TDF 16ms で展示した Code Graphics Compo",
+    additionalDescription: "※ サムネイルはYouTube仕様のため固定。再生位置は展示時の演出に合わせています。",
     codeUrl: "https://www.shadertoy.com/view/dscBzS",
     additionalUrl: "https://youtu.be/ifvrVZEbS_Y?si=1RqoKNs3R2zq2OK9&t=1054",
     additionalUrlName: "SESSIONS2025 RealTimeGraphics"
@@ -54,5 +57,6 @@ export const portfolioSketches: PortfolioSketch[] = [
     embedId: "F-CbQTcHNrc?si=ZDs6FLlWIYfNctCp&amp;start=608",
     languages: ["GLSL"],
     description: "SESSIONS2023 で展示した Code Graphics Compo",
+    additionalDescription: "※ サムネイルはYouTube仕様のため固定。再生位置は展示時の演出に合わせています。",
     codeUrl: "https://www.shadertoy.com/view/mtdGzj",
 }];

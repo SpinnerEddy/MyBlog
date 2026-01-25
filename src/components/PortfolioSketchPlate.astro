@@ -5,12 +5,13 @@ export interface Props {
   embedId: string;
   languages: string[];
   description: string;
+  additionalDescription: string;
   codeUrl?: string;
   additionalUrl?: string;
   additionalUrlName?: string;
 }
 
-const { title, embedType, embedId, languages, description, codeUrl, additionalUrl, additionalUrlName } = Astro.props;
+const { title, embedType, embedId, languages, description, additionalDescription, codeUrl, additionalUrl, additionalUrlName } = Astro.props;
 ---
 
 <article class="sketch">
@@ -34,10 +35,14 @@ const { title, embedType, embedId, languages, description, codeUrl, additionalUr
   </div>
 
   <ul class="languages">
-    {languages.map(lang => <li>{lang}</li>)}
+    使用言語 : {languages.map(lang => <li>{lang}</li>)}
   </ul>
 
   <p class="description">{description}</p>
+
+  {additionalDescription && (
+    <p class="additionalDescription">{additionalDescription}</p>
+  )}
 
   {additionalUrl && additionalUrlName && (
     <div class="additional-link">
@@ -97,5 +102,17 @@ const { title, embedType, embedId, languages, description, codeUrl, additionalUr
     font-size: 0.95rem;
     line-height: 1.6;
     color: #333;
+  }
+
+  .additionalDescription {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: #908f8f;
+  }
+
+  .additional-link {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: #585858;
   }
 </style>
