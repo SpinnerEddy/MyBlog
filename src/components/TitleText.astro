@@ -23,6 +23,10 @@ import { SITE_TITLE } from '../consts';
 			font-size: clamp(1.4rem, 5vw, 2.5rem);
 			line-height: 1.1;
 			text-align: left;
+
+			/* 👇 2行想定 */
+			max-width: 70vw;
+			word-break: keep-all;
 		}
 
 		/* アイコン */
@@ -30,6 +34,7 @@ import { SITE_TITLE } from '../consts';
 			width: clamp(56px, 18vw, 96px);
 			height: auto;
 			border-radius: 9999px;
+			flex-shrink: 0;
 		}
 
 		/* 📱 モバイル用 */
