@@ -2,14 +2,48 @@
 import { SITE_TITLE } from '../consts';
 ---
 
-<div class="flex items-center gap-2">
+<div class="header-title">
 	<img
 		src="/myicon2.png"
 		alt="myicon2"
-		class="w-24 h-24 rounded-full"
+		class="site-icon"
 	/>
-	<span class="title-font text-4xl font-medium tracking-tight eading-none">
+	<span class="title-font site-title">
 		{SITE_TITLE}
 	</span>
+	<style>
+		.header-title {
+			display: flex;
+			align-items: center;
+			gap: 12px;
+		}
+
+		/* タイトル */
+		.site-title {
+			font-size: clamp(1.4rem, 5vw, 2.5rem);
+			line-height: 1.1;
+			text-align: left;
+		}
+
+		/* アイコン */
+		.site-icon {
+			width: clamp(56px, 18vw, 96px);
+			height: auto;
+			border-radius: 9999px;
+		}
+
+		/* 📱 モバイル用 */
+		@media (max-width: 600px) {
+			.header-title {
+				flex-direction: column;
+				align-items: center;
+				gap: 6px;
+			}
+
+			.site-title {
+				text-align: center;
+			}
+		}
+	</style>
 </div>
 
