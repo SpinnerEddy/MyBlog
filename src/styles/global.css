@@ -6,4 +6,12 @@
 
 .content-title-font {
   font-family: Georgia, "Times New Roman", Times, serif;
+  font-size: clamp(1rem, 3.5vw, 2rem);
+  line-height: 1.2;
+}
+
+@media (max-width: 480px) {
+  .content-title-font {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  }
 }
