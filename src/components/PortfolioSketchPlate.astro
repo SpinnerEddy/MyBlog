@@ -5,13 +5,15 @@ export interface Props {
   embedId: string;
   languages: string[];
   description: string;
+  simpleComment: string;
   additionalDescription: string;
   codeUrl?: string;
   additionalUrl?: string;
   additionalUrlName?: string;
+  additionalArticle?: string;
 }
 
-const { title, embedType, embedId, languages, description, additionalDescription, codeUrl, additionalUrl, additionalUrlName } = Astro.props;
+const { title, embedType, embedId, languages, description, simpleComment, additionalDescription, codeUrl, additionalUrl, additionalUrlName, additionalArticle } = Astro.props;
 ---
 
 <article class="sketch">
@@ -40,6 +42,8 @@ const { title, embedType, embedId, languages, description, additionalDescription
 
   <p class="description">{description}</p>
 
+  <p class="simpleComment">{simpleComment}</p>
+
   {additionalDescription && (
     <p class="additionalDescription">{additionalDescription}</p>
   )}
@@ -56,6 +60,14 @@ const { title, embedType, embedId, languages, description, additionalDescription
     <div class="code-link">
         <a href={codeUrl} target="_blank" rel="noopener noreferrer" class="hover:text-gray-900 hover:underline">
         {codeUrl}
+        </a>
+    </div>
+  )}
+
+  {additionalArticle && (
+    <div class="code-link">
+        <a href={additionalArticle} target="_blank" rel="noopener noreferrer" class="hover:text-gray-900 hover:underline">
+        {additionalArticle}
         </a>
     </div>
   )}
@@ -102,6 +114,13 @@ const { title, embedType, embedId, languages, description, additionalDescription
     font-size: 0.95rem;
     line-height: 1.6;
     color: #333;
+  }
+
+  .simpleComment {
+    font-size: 0.9rem;
+    line-height: 1.6;
+    color: #333;
+    white-space: pre-line;
   }
 
   .additionalDescription {
