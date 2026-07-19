@@ -3,6 +3,7 @@ title: '最初の記事'
 description: 'SpinnerEddyのブログの始まり'
 pubDate: 'Dec 27 2025'
 heroImage: '../../assets/blog-placeholder-3.jpg'
+category: 'other'
 ---
 
 Astroを使って静的サイトの作成を試み。
