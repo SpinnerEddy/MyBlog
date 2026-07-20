@@ -18,4 +18,13 @@ const blog = defineCollection({
 		}),
 });
 
-export const collections = { blog };
+const about = defineCollection({
+	// Load the About page's Markdown content from `src/content/about/`.
+	loader: glob({ base: './src/content/about', pattern: '**/*.md' }),
+	schema: z.object({
+		name: z.string(),
+		icon: z.string(),
+	}),
+});
+
+export const collections = { blog, about };

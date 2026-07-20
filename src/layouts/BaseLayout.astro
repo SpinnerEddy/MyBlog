@@ -4,7 +4,6 @@ import "../styles/global.css";
 const { title } = Astro.props;
 import Header from '../components/Header.astro';
 import Footer from "../components/Footer.astro";
-import PortfolioPageLayout from "./PortfolioPageLayout.astro";
 ---
 
 <!DOCTYPE html>
@@ -24,7 +23,7 @@ import PortfolioPageLayout from "./PortfolioPageLayout.astro";
             </aside> -->
 
             <main>
-                <PortfolioPageLayout />
+                <slot />
             </main>
 
             <!-- <aside class="hidden lg:block">
