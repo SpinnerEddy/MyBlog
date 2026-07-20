@@ -1,0 +1,27 @@
+---
+interface Props {
+  color: 'red' | 'blue' | 'green' | 'orange';
+}
+
+const { color } = Astro.props;
+---
+
+<span class={`hl hl-${color}`}><slot /></span>
+
+<style>
+  .hl {
+    font-weight: 600;
+  }
+  .hl-red {
+    color: #c0392b;
+  }
+  .hl-blue {
+    color: #2266cc;
+  }
+  .hl-green {
+    color: #1e8a4c;
+  }
+  .hl-orange {
+    color: #d3670a;
+  }
+</style>

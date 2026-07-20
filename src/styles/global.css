@@ -1,4 +1,22 @@
 @import "tailwindcss";
+@plugin "@tailwindcss/typography";
+@import "@fontsource/zen-old-mincho/400.css";
+@import "@fontsource/zen-old-mincho/700.css";
+
+@theme {
+  --font-content: "Zen Old Mincho", "Hiragino Mincho ProN", "Yu Mincho", YuMincho, serif;
+}
+
+:root {
+  --accent: 35, 55, 255;
+  --black: 15, 18, 25;
+  --gray: 96, 115, 159;
+  --gray-light: 229, 233, 240;
+  --gray-dark: 34, 41, 57;
+  --box-shadow:
+    0 2px 6px rgba(var(--gray), 25%), 0 8px 24px rgba(var(--gray), 33%), 0 16px 32px
+    rgba(var(--gray), 33%);
+}
 
 .title-font {
   font-family: Georgia, "Times New Roman", Times, serif;

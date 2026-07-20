@@ -1,0 +1,57 @@
+---
+interface Heading {
+  depth: number;
+  slug: string;
+  text: string;
+}
+
+interface Props {
+  headings: Heading[];
+}
+
+const { headings } = Astro.props;
+
+const items = headings.filter((h) => h.depth >= 2);
+---
+
+{
+  items.length > 0 && (
+    <nav class="toc not-prose" aria-label="目次">
+      <p class="toc-title">目次</p>
+      <ul>
+        {items.map((h) => (
+          <li style={`margin-left: ${(h.depth - 2) * 1}rem`}>
+            <a href={`#${h.slug}`}>{h.text}</a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+  )
+}
+
+<style>
+  .toc {
+    margin-bottom: 2em;
+    padding: 1em 1.5em;
+    border: 1px solid rgb(var(--gray-light));
+    border-radius: 8px;
+  }
+  .toc-title {
+    margin: 0 0 0.5em 0;
+    font-weight: 700;
+  }
+  .toc ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .toc li {
+    margin-bottom: 0.25em;
+  }
+  .toc a {
+    text-decoration: none;
+  }
+  .toc a:hover {
+    text-decoration: underline;
+  }
+</style>
