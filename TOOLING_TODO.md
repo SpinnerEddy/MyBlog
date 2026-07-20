@@ -50,7 +50,7 @@
 
 `TODO.md`に出てくるレイアウト・機能について、Astro 5 / Tailwind CSS v4 での実装方法を事前に調査し、設計メモとしてドキュメント化する。調査対象は以下（`TODO.md`の該当セクションに対応）。
 
-- [x] 3カラムレイアウト（Sidebar / メイン / RightPanel、レスポンシブ対応）— TODO.md §3.1, §7.1 → `docs/design-notes/3-column-layout.md`
+- [x] 3カラムレイアウト（Sidebar / メイン / LeftPanel(旧RightPanel)、レスポンシブ対応）— TODO.md §3.1, §7.1 → `docs/design-notes/3-column-layout.md`
 - [x] Sidebarのサブメニュー（Blog > 5カテゴリタブ、現在地ハイライト）— TODO.md §7.1 → `docs/design-notes/sidebar-submenu.md`
 - [x] 更新履歴カレンダー（GitHub contributionグラフ風ヒートマップをCSS Gridで実装）— TODO.md §3.3, §7.7 → `docs/design-notes/calendar-heatmap.md`
 - [x] タイポグラフィ整備（`@tailwindcss/typography`導入、既存`.prose`クラスとの衝突回避）— TODO.md §4.1 → `docs/design-notes/typography.md`

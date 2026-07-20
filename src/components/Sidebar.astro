@@ -1,27 +1,70 @@
 ---
-// Sidebar.astro
-const navItems = [
-{ href: '/', label: 'Home' },
-{ href: '/about', label: 'About' },
-{ href: '/content', label: 'Content' },
-{ href: '/sketch', label: 'Sketch' },
-{ href: '/playground', label: 'Playground' },
+type NavChild = { href: string; label: string; available?: boolean };
+type NavItem = { href: string; label: string; children?: NavChild[] };
+
+const navItems: NavItem[] = [
+	{ href: '/', label: 'Home' },
+	{ href: '/about', label: 'About' },
+	{
+		href: '/blog',
+		label: 'Blog',
+		children: [
+			{ href: '/blog', label: 'All', available: true },
+			{ href: '/blog/sketch', label: 'Sketch' },
+			{ href: '/blog/portfolio', label: 'Portfolio' },
+			{ href: '/blog/article', label: 'Articles' },
+			{ href: '/blog/event', label: 'Event・Live' },
+			{ href: '/blog/hobby', label: 'Hobby' },
+			{ href: '/blog/other', label: 'Other' },
+		],
+	},
+	{ href: '/playground', label: 'PlayGround' },
 ];
+
+const normalize = (path: string) => path.replace(/\/+$/, '') || '/';
+const pathname = normalize(Astro.url.pathname);
+
+const isExact = (href: string) => pathname === normalize(href);
+const isWithin = (href: string) => href !== '/' && pathname.startsWith(normalize(href));
 ---
 
-
-<aside class="fixed left-0 top-0 h-screen w-40 border-r border-zinc-800 bg-white text-zinc-900cd">
-    <nav class="flex h-full flex-col px-6 py-8">
-        <ul class="space-y-4 text-sm tracking-wide">
-            <li class="pb-4 border-b border-zinc-400 text-xs uppercase tracking-widest text-zinc-400">
-            </li>
-            {navItems.map((item) => (
-            <li>
-                <a href={item.href} class="block transition-colors hover:text-zinc-900 text-zinc-900">
-                    {item.label}
-                </a>
-            </li>))
-            }
-        </ul>
-    </nav>
-</aside>
+<nav class="flex flex-col pt-8 text-sm tracking-wide" aria-label="メインナビゲーション">
+	<ul class="divide-y divide-zinc-200">
+		{
+			navItems.map((item) => (
+				<li class="py-3 first:pt-0 last:pb-0">
+					<a
+						href={item.href}
+						aria-current={isExact(item.href) || isWithin(item.href) ? 'page' : undefined}
+						class="title-font -mx-2 block rounded-md px-2 py-1 text-base text-zinc-900 transition-colors hover:bg-zinc-100 aria-[current=page]:bg-zinc-100 aria-[current=page]:font-bold"
+					>
+						{item.label}
+					</a>
+					{item.children && (
+						<ul class="ml-3 mt-2 space-y-2 border-l border-zinc-200 pl-3">
+							{item.children.map((child) =>
+								child.available ? (
+									<li>
+										<a
+											href={child.href}
+											aria-current={isExact(child.href) ? 'page' : undefined}
+											class="block text-zinc-600 transition-colors hover:text-zinc-900 aria-[current=page]:font-bold aria-[current=page]:text-zinc-900"
+										>
+											{child.label}
+										</a>
+									</li>
+								) : (
+									<li>
+										<span aria-disabled="true" title="準備中" class="block cursor-not-allowed text-zinc-300">
+											{child.label}
+										</span>
+									</li>
+								),
+							)}
+						</ul>
+					)}
+				</li>
+			))
+		}
+	</ul>
+</nav>
