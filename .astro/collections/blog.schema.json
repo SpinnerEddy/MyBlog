@@ -45,6 +45,22 @@
         "heroImage": {
           "type": "string"
         },
+        "category": {
+          "type": "string",
+          "enum": [
+            "article",
+            "sketch",
+            "portfolio",
+            "event",
+            "hobby",
+            "other"
+          ],
+          "default": "article"
+        },
+        "noindex": {
+          "type": "boolean",
+          "default": false
+        },
         "$schema": {
           "type": "string"
         }
