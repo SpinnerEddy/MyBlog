@@ -1,5 +1,9 @@
 ---
-// Calendar.astro / XTimeline.astro をここに配置予定（TODO.md §7.7, §7.8、Order 14で未実装）
+import Calendar from './Calendar.astro';
+// XTimelineは実ブラウザでタイムラインが描画されないケースが多く不安定なため一旦非表示にしている（TODO.md §7.8参照）。
+// import XTimeline from './XTimeline.astro';
 ---
 
-<div class="text-sm text-zinc-300"></div>
+<div class="flex flex-col gap-8 pt-8 text-sm">
+	<Calendar />
+</div>

@@ -1,0 +1,205 @@
+---
+import { getCollection } from 'astro:content';
+
+function pad(n: number) {
+	return String(n).padStart(2, '0');
+}
+function localKey(y: number, m: number, d: number) {
+	return `${y}-${pad(m + 1)}-${pad(d)}`;
+}
+function monthKey(y: number, m: number) {
+	return `${y}-${pad(m + 1)}`;
+}
+
+const posts = await getCollection('blog');
+
+const postDaysByMonth = new Map<string, number[]>();
+for (const p of posts) {
+	const d = p.data.pubDate;
+	const key = monthKey(d.getFullYear(), d.getMonth());
+	const days = postDaysByMonth.get(key) ?? [];
+	days.push(d.getDate());
+	postDaysByMonth.set(key, days);
+}
+
+const today = new Date();
+const currentYear = today.getFullYear();
+const currentMonth = today.getMonth(); // 0-indexed
+const todayKey = localKey(currentYear, currentMonth, today.getDate());
+
+const sortedMonthKeys = [...postDaysByMonth.keys()].sort();
+const earliestMonthKey = sortedMonthKeys[0] ?? monthKey(currentYear, currentMonth);
+
+const weekdayLabels = ['日', '月', '火', '水', '木', '金', '土'];
+
+// クライアント側の月送りでも同じ投稿日データを再利用するため、JSONとして埋め込む
+const postDaysByMonthJSON = JSON.stringify(Object.fromEntries(postDaysByMonth));
+---
+
+<div
+	class="calendar"
+	data-posts={postDaysByMonthJSON}
+	data-earliest-month={earliestMonthKey}
+	data-current-year={currentYear}
+	data-current-month={currentMonth}
+	data-today-key={todayKey}
+>
+	<div class="calendar-header">
+		<button type="button" class="calendar-nav" data-dir="-1" aria-label="前の月">‹</button>
+		<p class="calendar-title title-font" data-month-label>{currentYear}年{currentMonth + 1}月</p>
+		<button type="button" class="calendar-nav" data-dir="1" aria-label="次の月">›</button>
+	</div>
+	<div class="calendar-weekdays">
+		{weekdayLabels.map((w) => <span>{w}</span>)}
+	</div>
+	<div class="calendar-grid" data-grid></div>
+</div>
+
+<script>
+	function pad(n: number) {
+		return String(n).padStart(2, '0');
+	}
+	function localKey(y: number, m: number, d: number) {
+		return `${y}-${pad(m + 1)}-${pad(d)}`;
+	}
+	function monthKeyOf(y: number, m: number) {
+		return `${y}-${pad(m + 1)}`;
+	}
+
+	document.querySelectorAll<HTMLElement>('.calendar').forEach((calendarEl) => {
+		const postDaysByMonth: Record<string, number[]> = JSON.parse(calendarEl.dataset.posts || '{}');
+		const earliestMonthKey = calendarEl.dataset.earliestMonth!;
+		const todayKey = calendarEl.dataset.todayKey!;
+		let year = Number(calendarEl.dataset.currentYear);
+		let month = Number(calendarEl.dataset.currentMonth);
+
+		const labelEl = calendarEl.querySelector<HTMLElement>('[data-month-label]')!;
+		const gridEl = calendarEl.querySelector<HTMLElement>('[data-grid]')!;
+		const prevBtn = calendarEl.querySelector<HTMLButtonElement>('[data-dir="-1"]')!;
+		const nextBtn = calendarEl.querySelector<HTMLButtonElement>('[data-dir="1"]')!;
+
+		// Astroのスコープ付きCSS（data-astro-cid-*）は動的生成した要素には付与されないため、
+		// 静的にレンダリングされた要素から属性名を拾って新しいセルにも複製する
+		const scopeAttr = Array.from(calendarEl.attributes).find((a) => a.name.startsWith('data-astro-cid-'))?.name;
+		function makeCell(): HTMLDivElement {
+			const cell = document.createElement('div');
+			if (scopeAttr) cell.setAttribute(scopeAttr, '');
+			return cell;
+		}
+
+		const actualToday = new Date();
+		const currentActualMonthKey = monthKeyOf(actualToday.getFullYear(), actualToday.getMonth());
+
+		function render() {
+			labelEl.textContent = `${year}年${month + 1}月`;
+
+			const firstWeekday = new Date(year, month, 1).getDay();
+			const daysInMonth = new Date(year, month + 1, 0).getDate();
+			const postDays = new Set(postDaysByMonth[monthKeyOf(year, month)] ?? []);
+
+			gridEl.innerHTML = '';
+			for (let i = 0; i < firstWeekday; i++) {
+				const cell = makeCell();
+				cell.className = 'calendar-day is-empty';
+				gridEl.appendChild(cell);
+			}
+			for (let d = 1; d <= daysInMonth; d++) {
+				const key = localKey(year, month, d);
+				const cell = makeCell();
+				cell.className = 'calendar-day';
+				if (postDays.has(d)) cell.classList.add('has-post');
+				if (key === todayKey) cell.classList.add('is-today');
+				cell.textContent = String(d);
+				cell.title = postDays.has(d) ? `${key}: 投稿あり` : key;
+				gridEl.appendChild(cell);
+			}
+
+			prevBtn.disabled = monthKeyOf(year, month) <= earliestMonthKey;
+			nextBtn.disabled = monthKeyOf(year, month) >= currentActualMonthKey;
+		}
+
+		function shiftMonth(delta: number) {
+			month += delta;
+			if (month < 0) {
+				month = 11;
+				year -= 1;
+			} else if (month > 11) {
+				month = 0;
+				year += 1;
+			}
+			render();
+		}
+
+		prevBtn.addEventListener('click', () => shiftMonth(-1));
+		nextBtn.addEventListener('click', () => shiftMonth(1));
+
+		render();
+	});
+</script>
+
+<style>
+	.calendar-header {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		margin-bottom: 0.75em;
+	}
+	.calendar-title {
+		margin: 0;
+		font-size: 1.05em;
+		font-weight: 700;
+		font-variant-numeric: lining-nums;
+	}
+	.calendar-nav {
+		border: none;
+		background: none;
+		padding: 0.25em 0.5em;
+		border-radius: 6px;
+		color: rgb(var(--gray-dark));
+		font-size: 1.1em;
+		line-height: 1;
+		cursor: pointer;
+	}
+	.calendar-nav:hover:not(:disabled) {
+		background-color: rgb(var(--gray-light));
+	}
+	.calendar-nav:disabled {
+		opacity: 0.3;
+		cursor: not-allowed;
+	}
+	.calendar-weekdays {
+		display: grid;
+		grid-template-columns: repeat(7, 1fr);
+		margin-bottom: 4px;
+	}
+	.calendar-weekdays span {
+		text-align: center;
+		font-size: 0.75em;
+		color: rgb(var(--gray));
+	}
+	.calendar-grid {
+		display: grid;
+		grid-template-columns: repeat(7, 1fr);
+		gap: 4px;
+	}
+	.calendar-day {
+		display: flex;
+		aspect-ratio: 1;
+		align-items: center;
+		justify-content: center;
+		border-radius: 9999px;
+		font-size: 0.8em;
+	}
+	.calendar-day.is-empty {
+		visibility: hidden;
+	}
+	.calendar-day.has-post {
+		background-color: #eef1ff;
+		color: rgb(var(--accent));
+		font-weight: 700;
+	}
+	.calendar-day.is-today {
+		outline: 1px solid rgb(var(--gray-dark));
+		outline-offset: -1px;
+	}
+</style>
